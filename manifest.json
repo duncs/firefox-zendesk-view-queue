@@ -1,0 +1,23 @@
+{
+  "manifest_version": 2,
+  "name": "Zendesk Ticket Notifier",
+  "version": "1.0",
+  "description": "Notifies when new Zendesk tickets arrive.",
+  "permissions": [
+    "storage",
+    "tabs",
+    "notifications",
+    "https://*.zendesk.com/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_icon": "icons/icon.png",
+    "default_title": "Zendesk Notifier"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
+}

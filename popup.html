@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      min-width: 250px;
+      padding: 10px;
+    }
+    h3 {
+      margin-top: 0;
+    }
+    .ticket {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+    }
+    #sortSelect {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h3>Zendesk Queue</h3>
+  <select id="sortSelect">
+    <option value="newest">Newest First</option>
+    <option value="oldest">Oldest First</option>
+  </select>
+  <div id="ticketList">Loading...</div>
+  <script src="popup.js"></script>
+</body>
+</html>

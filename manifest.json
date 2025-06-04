@@ -2,12 +2,15 @@
   "manifest_version": 2,
   "name": "Zendesk View Queue",
   "version": "1.0",
-  "description": "Report the count of and list the tickets in the configured Zendesk View.",
+  "summary": {
+      "en-US": "Report the count and list of tickets in the configured Zendesk View."
+  },
+  "version": {
+      "license": "MIT"
+  },
   "homepage": "https://github.com/duncs/firefox-zendesk-view-queue",
   "categories": {
-    "firefox": [
-      "alerts-updates"
-    ]
+    "firefox": [ "alerts-updates", "other" ]
   },
   "permissions": [
     "storage",

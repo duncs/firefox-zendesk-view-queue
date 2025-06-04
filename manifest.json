@@ -4,6 +4,11 @@
   "version": "1.0",
   "description": "Report the count of and list the tickets in the configured Zendesk View.",
   "homepage": "https://github.com/duncs/firefox-zendesk-view-queue",
+  "categories": {
+    "firefox": [
+      "alerts-updates"
+    ]
+  },
   "permissions": [
     "storage",
     "tabs",

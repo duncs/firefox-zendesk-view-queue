@@ -7,5 +7,7 @@ build: tidy
 	web-ext lint
 	web-ext build --overwrite-dest
 
+test: build
+	web-ext run --devtools --browser-console
 
 .PHONY: all

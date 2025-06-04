@@ -79,7 +79,7 @@ async function startPolling() {
       if (notificationsEnabled && previousCount !== null && count > previousCount) {
         browser.notifications.create({
           type: "basic",
-          iconUrl: "icons/icon.png",
+          iconUrl: "icons/icon32.png",
           title: "New Zendesk Ticket(s)",
           message: `You have ${count} ticket(s) in your queue.`
         });

@@ -10,26 +10,18 @@ async function loadTickets(sortOrder = "newest") {
 
   const credentials = btoa(`${email}:${password}`);
   try {
-    const [ticketsRes, usersRes] = await Promise.all([
+    const [ticketsRes] = await Promise.all([
       fetch(`https://${subdomain}.zendesk.com/api/v2/views/${viewId}/tickets.json`, {
         headers: {
           "Authorization": `Basic ${credentials}`,
           "Content-Type": "application/json"
         }
       }),
-      fetch(`https://${subdomain}.zendesk.com/api/v2/users.json`, {
-        headers: {
-          "Authorization": `Basic ${credentials}`,
-          "Content-Type": "application/json"
-        }
-      })
     ]);
 
-    if (!ticketsRes.ok || !usersRes.ok) throw new Error("Failed to load data");
+    if (!ticketsRes.ok ) throw new Error("Failed to load data");
 
     const ticketsData = await ticketsRes.json();
-    const usersData = await usersRes.json();
-    const usersMap = Object.fromEntries(usersData.users.map(u => [u.id, u.name]));
 
     const list = document.getElementById("ticketList");
     list.innerHTML = "";
@@ -45,9 +37,19 @@ async function loadTickets(sortOrder = "newest") {
         const bDate = new Date(b.updated_at);
         return sortOrder === "newest" ? bDate - aDate : aDate - bDate;
       })
-      .forEach(ticket => {
-        console.log(`Requester id ${ticket.requester_id}`)
-        const requester = usersMap[ticket.requester_id] || "Unknown";
+      .forEach(async (ticket) => {
+
+        const [userInfoRes] = await Promise.all([
+            fetch(`https://${subdomain}.zendesk.com/api/v2/users/${ticket.requester_id}`, {
+                headers: {
+                "Authorization": `Basic ${credentials}`,
+                "Content-Type": "application/json"
+                }
+            })
+        ]);
+        userInfo = await userInfoRes.json()
+
+        const requester = userInfo.user.name || "Unknown";
         const updated = new Date(ticket.updated_at).toLocaleString();
 
         // Add in a DIV, put a link inside the div and the additional info without an url on it
@@ -59,20 +61,20 @@ async function loadTickets(sortOrder = "newest") {
         link.style.display = "block";
         //link.style.marginBottom = "8px";
 
-		const strong = document.createElement("strong")
-		strong.innerText=`#${ticket.id}`
+        const strong = document.createElement("strong")
+        strong.innerText=`#${ticket.id}`
 
-		link.appendChild( strong )
+        link.appendChild( strong )
 
-		const subject = document.createTextNode(`: ${ticket.subject}`)
-		link.appendChild( subject )
+        const subject = document.createTextNode(`: ${ticket.subject}`)
+        link.appendChild( subject )
 
         table_row.appendChild(link)
 
-		const small = document.createElement("small")
-		small.innerText = `Status: ${ticket.status} | Requester: ${requester} | Updated: ${updated}`
+        const small = document.createElement("small")
+        small.innerText = `Status: ${ticket.status} | Requester: ${requester} | Updated: ${updated}`
 
-		table_row.appendChild(small)
+        table_row.appendChild(small)
 
         list.appendChild(table_row);
       });

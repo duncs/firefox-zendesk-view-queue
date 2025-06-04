@@ -46,19 +46,35 @@ async function loadTickets(sortOrder = "newest") {
         return sortOrder === "newest" ? bDate - aDate : aDate - bDate;
       })
       .forEach(ticket => {
+        console.log(`Requester id ${ticket.requester_id}`)
         const requester = usersMap[ticket.requester_id] || "Unknown";
         const updated = new Date(ticket.updated_at).toLocaleString();
+
+        // Add in a DIV, put a link inside the div and the additional info without an url on it
+        const table_row = document.createElement("div");
 
         const link = document.createElement("a");
         link.href = `https://${subdomain}.zendesk.com/agent/tickets/${ticket.id}`;
         link.target = "_blank";
         link.style.display = "block";
-        link.style.marginBottom = "8px";
-        link.innerHTML = `
-          <strong>#${ticket.id}</strong>: ${ticket.subject}<br>
-          <small>Status: ${ticket.status} | Requester: ${requester} | Updated: ${updated}</small>
-        `;
-        list.appendChild(link);
+        //link.style.marginBottom = "8px";
+
+		const strong = document.createElement("strong")
+		strong.innerText=`#${ticket.id}`
+
+		link.appendChild( strong )
+
+		const subject = document.createTextNode(`: ${ticket.subject}`)
+		link.appendChild( subject )
+
+        table_row.appendChild(link)
+
+		const small = document.createElement("small")
+		small.innerText = `Status: ${ticket.status} | Requester: ${requester} | Updated: ${updated}`
+
+		table_row.appendChild(small)
+
+        list.appendChild(table_row);
       });
   } catch (e) {
     document.getElementById("ticketList").innerText = "Error loading ticket data.";

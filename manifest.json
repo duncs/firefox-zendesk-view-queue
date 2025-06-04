@@ -3,11 +3,9 @@
   "name": "Zendesk View Queue",
   "version": "1.0",
   "summary": {
-      "en-US": "Report the count and list of tickets in the configured Zendesk View."
+    "en-US": "Report the count and list of tickets in the configured Zendesk View."
   },
-  "version": {
-      "license": "MIT"
-  },
+  "description": "Use the Zendesk API to fetch details of tickets from a View. This allows the user to easily see if there are any tickets requiring action without having to log into the Zendesk UI.",
   "homepage": "https://github.com/duncs/firefox-zendesk-view-queue",
   "categories": {
     "firefox": [ "alerts-updates", "other" ]
